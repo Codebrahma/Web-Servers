@@ -1,6 +1,10 @@
 require 'socket'
 require './app'
+number_of_process = 5
 server = TCPServer.new("0.0.0.0", 1234)
+(number_of_process-1).times do
+  break unless fork
+end
 
 def get_request(con)
   response = ""
@@ -17,7 +21,6 @@ end
 
 loop do
   connection = server.accept
-  if fork
     puts "connected with client at #{current_time}"
     input  = get_request(connection)
     puts "-------------------------------------"
@@ -33,6 +36,5 @@ loop do
     puts "-------------------------------------"
     connection.puts "#{output}"
     connection.close
-  end
 end
 
