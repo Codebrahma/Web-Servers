@@ -10,21 +10,29 @@ def get_request(con)
   end 
   response
 end
+
+def current_time
+  Time.new.strftime("%H:%M:%S")
+end
+
 loop do
   connection = server.accept
-  puts "connected with client"
-  input  = get_request(connection)
-  puts "-------------------------------------"
-  puts "INPUT IS"
-  puts "#{input}"
+  if fork
+    puts "connected with client at #{current_time}"
+    input  = get_request(connection)
+    puts "-------------------------------------"
+    puts "INPUT IS"
+    puts "#{input}"
 
-  output = App.call(input)
+    output = App.call(input)
 
-  puts "-------------------------------------"
-  puts "OUTPUT is"
-  puts "#{output}"
-  puts "-------------------------------------"
-  connection.puts "#{output}"
-  connection.close
+    puts "-------------------------------------"
+    puts "OUTPUT is"
+    puts "#{output}"
+    puts "processed at #{current_time}"
+    puts "-------------------------------------"
+    connection.puts "#{output}"
+    connection.close
+  end
 end
 

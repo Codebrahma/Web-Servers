@@ -15,7 +15,7 @@ class App
   def self.process(input)
     res = WEBrick::HTTPResponse.new(WEBrick::Config::HTTP)
     res.status=200
-    sleep 3
+    sleep 10
     res.body = input.reverse
     res.to_s
   end
