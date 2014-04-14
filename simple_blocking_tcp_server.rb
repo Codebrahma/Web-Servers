@@ -16,31 +16,25 @@ def current_time
   Time.new.strftime("%H:%M:%S")
 end
 
-def start(server)
-  loop do
-    puts "server"
-    connection = server.accept
-      puts "connected with client at #{current_time}"
-      input  = get_request(connection)
-      puts "-------------------------------------"
-      puts "INPUT IS"
-      puts "#{input}"
-
-      output = App.call(input)
-
-      puts "-------------------------------------"
-      puts "OUTPUT is"
-      puts "#{output}"
-      puts "processed at #{current_time}"
-      puts "-------------------------------------"
-      connection.puts "#{output}"
-      connection.close
-  end
-end
-
-(number_of_process-1).times do
+loop do
+  puts "server"
+  connection = server.accept
   Thread.new do
-    start(server)
+    puts "connected with client at #{current_time}"
+    input  = get_request(connection)
+    puts "-------------------------------------"
+    puts "INPUT IS"
+    puts "#{input}"
+
+    output = App.call(input)
+
+    puts "-------------------------------------"
+    puts "OUTPUT is"
+    puts "#{output}"
+    puts "processed at #{current_time}"
+    puts "-------------------------------------"
+    connection.puts "#{output}"
+    connection.close
   end
 end
 
